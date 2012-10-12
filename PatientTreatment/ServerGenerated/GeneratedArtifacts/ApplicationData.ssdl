@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ApplicationDataStore" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="ApplicationDataStore">
+    <EntitySet Name="Patients" EntityType="ApplicationDataStore.Patient" store:Type="Tables" Schema="dbo" Table="Patients" />
+    <EntitySet Name="Treatments" EntityType="ApplicationDataStore.Treatment" store:Type="Tables" Schema="dbo" Table="Treatments" />
+    <EntitySet Name="SpecificLabsSet" EntityType="ApplicationDataStore.SpecificLabs" store:Type="Tables" Schema="dbo" Table="SpecificLabsSet" />
+    <AssociationSet Name="SpecificLabs_Patient" Association="ApplicationDataStore.SpecificLabs_Patient">
+      <End Role="Patient" EntitySet="Patients" />
+      <End Role="SpecificLabs" EntitySet="SpecificLabsSet" />
+    </AssociationSet>
+    <AssociationSet Name="Treatment_Patient" Association="ApplicationDataStore.Treatment_Patient">
+      <End Role="Patient" EntitySet="Patients" />
+      <End Role="Treatment" EntitySet="Treatments" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Patient">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="Treatment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="DateTreated" Type="datetime" Nullable="false" />
+    <Property Name="MedicineUsed" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="Treatment_Patient" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SpecificLabs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="DateLabIssued" Type="datetime" Nullable="false" />
+    <Property Name="ViralLoad" Type="float" Nullable="false" />
+    <Property Name="WhiteBloodCellCount" Type="decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="NumberOfFingers" Type="int" Nullable="false" />
+    <Property Name="SpecificLabs_Patient" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="SpecificLabs_Patient">
+    <End Role="Patient" Type="ApplicationDataStore.Patient" Multiplicity="1" />
+    <End Role="SpecificLabs" Type="ApplicationDataStore.SpecificLabs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Patient">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SpecificLabs">
+        <PropertyRef Name="SpecificLabs_Patient" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Treatment_Patient">
+    <End Role="Patient" Type="ApplicationDataStore.Patient" Multiplicity="1" />
+    <End Role="Treatment" Type="ApplicationDataStore.Treatment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Patient">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Treatment">
+        <PropertyRef Name="Treatment_Patient" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

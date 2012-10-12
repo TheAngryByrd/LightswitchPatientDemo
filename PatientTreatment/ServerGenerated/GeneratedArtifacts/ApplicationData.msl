@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping CdmEntityContainer="ApplicationDataObjectContext" StorageEntityContainer="ApplicationDataStore">
+    <EntitySetMapping Name="Patients">
+      <EntityTypeMapping TypeName="IsTypeOf(ApplicationData.Patient)">
+        <MappingFragment StoreEntitySet="Patients">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Treatments">
+      <EntityTypeMapping TypeName="IsTypeOf(ApplicationData.Treatment)">
+        <MappingFragment StoreEntitySet="Treatments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DateTreated" ColumnName="DateTreated" />
+          <ScalarProperty Name="MedicineUsed" ColumnName="MedicineUsed" />
+          <ScalarProperty Name="Treatment_Patient" ColumnName="Treatment_Patient" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SpecificLabsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ApplicationData.SpecificLabs)">
+        <MappingFragment StoreEntitySet="SpecificLabsSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DateLabIssued" ColumnName="DateLabIssued" />
+          <ScalarProperty Name="ViralLoad" ColumnName="ViralLoad" />
+          <ScalarProperty Name="WhiteBloodCellCount" ColumnName="WhiteBloodCellCount" />
+          <ScalarProperty Name="NumberOfFingers" ColumnName="NumberOfFingers" />
+          <ScalarProperty Name="SpecificLabs_Patient" ColumnName="SpecificLabs_Patient" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

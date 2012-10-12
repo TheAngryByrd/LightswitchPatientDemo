@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Namespace="ApplicationData" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <Association Name="SpecificLabs_Patient">
+    <End Role="Patient" Type="ApplicationData.Patient" Multiplicity="1" />
+    <End Role="SpecificLabs" Type="ApplicationData.SpecificLabs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Patient">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SpecificLabs">
+        <PropertyRef Name="SpecificLabs_Patient" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Treatment_Patient">
+    <End Role="Patient" Type="ApplicationData.Patient" Multiplicity="1" />
+    <End Role="Treatment" Type="ApplicationData.Treatment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Patient">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Treatment">
+        <PropertyRef Name="Treatment_Patient" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Patient">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" ConcurrencyMode="Fixed" />
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="255" ConcurrencyMode="Fixed" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="255" ConcurrencyMode="Fixed" />
+    <NavigationProperty Name="SpecificLabsCollection" Relationship="ApplicationData.SpecificLabs_Patient" ToRole="SpecificLabs" FromRole="Patient" />
+    <NavigationProperty Name="Treatments" Relationship="ApplicationData.Treatment_Patient" ToRole="Treatment" FromRole="Patient" />
+  </EntityType>
+  <EntityType Name="Treatment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" ConcurrencyMode="Fixed" />
+    <Property Name="DateTreated" Type="DateTime" Nullable="false" ConcurrencyMode="Fixed" />
+    <Property Name="MedicineUsed" Type="String" Nullable="false" MaxLength="255" ConcurrencyMode="Fixed" />
+    <Property Name="Treatment_Patient" Type="Int32" Nullable="false" ConcurrencyMode="Fixed" />
+    <NavigationProperty Name="Patient" Relationship="ApplicationData.Treatment_Patient" ToRole="Patient" FromRole="Treatment" />
+  </EntityType>
+  <EntityType Name="SpecificLabs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" ConcurrencyMode="Fixed" />
+    <Property Name="DateLabIssued" Type="DateTime" Nullable="false" ConcurrencyMode="Fixed" />
+    <Property Name="ViralLoad" Type="Double" Nullable="false" ConcurrencyMode="None" />
+    <Property Name="WhiteBloodCellCount" Type="Decimal" Nullable="false" Precision="18" Scale="2" ConcurrencyMode="Fixed" />
+    <Property Name="NumberOfFingers" Type="Int32" Nullable="false" ConcurrencyMode="Fixed" />
+    <Property Name="SpecificLabs_Patient" Type="Int32" Nullable="false" ConcurrencyMode="Fixed" />
+    <NavigationProperty Name="Patient" Relationship="ApplicationData.SpecificLabs_Patient" ToRole="Patient" FromRole="SpecificLabs" />
+  </EntityType>
+  <EntityContainer Name="ApplicationDataObjectContext">
+    <EntitySet Name="Patients" EntityType="ApplicationData.Patient" />
+    <EntitySet Name="Treatments" EntityType="ApplicationData.Treatment" />
+    <EntitySet Name="SpecificLabsSet" EntityType="ApplicationData.SpecificLabs" />
+    <AssociationSet Name="SpecificLabs_Patient" Association="ApplicationData.SpecificLabs_Patient">
+      <End Role="Patient" EntitySet="Patients" />
+      <End Role="SpecificLabs" EntitySet="SpecificLabsSet" />
+    </AssociationSet>
+    <AssociationSet Name="Treatment_Patient" Association="ApplicationData.Treatment_Patient">
+      <End Role="Patient" EntitySet="Patients" />
+      <End Role="Treatment" EntitySet="Treatments" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
